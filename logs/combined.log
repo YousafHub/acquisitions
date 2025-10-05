@@ -23,3 +23,8 @@
 {"level":"info","message":"User user@email.com created successfully","service":"acquisitions"}
 {"level":"info","message":"User registered successfully: user@email.com","service":"acquisitions"}
 {"level":"info","message":"::1 - - [04/Oct/2025:17:50:56 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 201 98 \"-\" \"HTTPie\"","service":"acquisitions"}
+{"level":"info","message":"User user@email.com authenticated successfully","service":"acquisitions"}
+{"level":"info","message":"User signed in successfully: user@email.com","service":"acquisitions"}
+{"level":"info","message":"::1 - - [05/Oct/2025:15:18:27 +0000] \"POST /api/auth/sign-in HTTP/1.1\" 200 110 \"-\" \"HTTPie\"","service":"acquisitions"}
+{"level":"info","message":"User signed out successfully","service":"acquisitions"}
+{"level":"info","message":"::1 - - [05/Oct/2025:15:21:03 +0000] \"POST /api/auth/sign-out HTTP/1.1\" 200 42 \"-\" \"HTTPie\"","service":"acquisitions"}
