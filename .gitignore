@@ -1,3 +1,13 @@
 node_modules
 .env.*
 .env
+
+# Neon Local data
+.neon_local/
+
+# Docker volumes
+postgres_data/
+
+# Logs
+logs/
+*.log
