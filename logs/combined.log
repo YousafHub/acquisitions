@@ -1,2 +1,25 @@
 {"level":"info","message":"Hello from Acquisitions","service":"acquisitions"}
 {"level":"info","message":"::1 - - [03/Oct/2025:18:10:52 +0000] \"GET / HTTP/1.1\" 304 - \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\"","service":"acquisitions"}
+{"level":"info","message":"Hello from Acquisitions","service":"acquisitions"}
+{"level":"info","message":"::1 - - [04/Oct/2025:15:18:03 +0000] \"GET / HTTP/1.1\" 200 23 \"-\" \"HTTPie\"","service":"acquisitions"}
+{"level":"info","message":"::1 - - [04/Oct/2025:15:19:17 +0000] \"GET /api HTTP/1.1\" 200 28 \"-\" \"HTTPie\"","service":"acquisitions"}
+{"level":"info","message":"::1 - - [04/Oct/2025:15:20:07 +0000] \"GET /health HTTP/1.1\" 404 145 \"-\" \"HTTPie\"","service":"acquisitions"}
+{"level":"info","message":"::1 - - [04/Oct/2025:15:20:23 +0000] \"GET /health HTTP/1.1\" 200 71 \"-\" \"HTTPie\"","service":"acquisitions"}
+{"level":"info","message":"::1 - - [04/Oct/2025:15:21:19 +0000] \"POST /api/auth/sign-in HTTP/1.1\" 200 31 \"-\" \"HTTPie\"","service":"acquisitions"}
+{"level":"info","message":"::1 - - [04/Oct/2025:16:41:23 +0000] \"GET /api/auth/sign-up HTTP/1.1\" 404 155 \"-\" \"HTTPie\"","service":"acquisitions"}
+{"level":"info","message":"::1 - - [04/Oct/2025:16:41:29 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 400 59 \"-\" \"HTTPie\"","service":"acquisitions"}
+{"level":"info","message":"::1 - - [04/Oct/2025:16:43:50 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 400 92 \"-\" \"HTTPie\"","service":"acquisitions"}
+{"level":"info","message":"::1 - - [04/Oct/2025:16:45:43 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 400 144 \"-\" \"HTTPie\"","service":"acquisitions"}
+{"level":"info","message":"::1 - - [04/Oct/2025:16:48:35 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 400 91 \"-\" \"HTTPie\"","service":"acquisitions"}
+{"level":"info","message":"User registered successfully: yousaf@email.com","service":"acquisitions"}
+{"level":"info","message":"::1 - - [04/Oct/2025:16:48:43 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 201 102 \"-\" \"HTTPie\"","service":"acquisitions"}
+{"level":"error","message":"Hash password error:  data and salt arguments required","service":"acquisitions","stack":"Error: data and salt arguments required\n    at Object.hash (D:\\DevOps\\acquisitions\\node_modules\\bcrypt\\bcrypt.js:133:17)\n    at D:\\DevOps\\acquisitions\\node_modules\\bcrypt\\promises.js:26:12\n    at new Promise (<anonymous>)\n    at Object.promise (D:\\DevOps\\acquisitions\\node_modules\\bcrypt\\promises.js:17:12)\n    at Object.hash (D:\\DevOps\\acquisitions\\node_modules\\bcrypt\\bcrypt.js:129:25)\n    at hashPassword (file:///D:/DevOps/acquisitions/src/services/auth.service.js:9:29)\n    at createUser (file:///D:/DevOps/acquisitions/src/services/auth.service.js:24:37)\n    at signup (file:///D:/DevOps/acquisitions/src/controllers/auth.controller.js:21:24)\n    at Layer.handleRequest (D:\\DevOps\\acquisitions\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (D:\\DevOps\\acquisitions\\node_modules\\router\\lib\\route.js:157:13)"}
+{"level":"error","message":"Error creating the user:  Hash password failed","service":"acquisitions","stack":"Error: Hash password failed\n    at hashPassword (file:///D:/DevOps/acquisitions/src/services/auth.service.js:12:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async createUser (file:///D:/DevOps/acquisitions/src/services/auth.service.js:24:31)\n    at async signup (file:///D:/DevOps/acquisitions/src/controllers/auth.controller.js:21:18)"}
+{"level":"error","message":"Sign up error Hash password failed","service":"acquisitions","stack":"Error: Hash password failed\n    at hashPassword (file:///D:/DevOps/acquisitions/src/services/auth.service.js:12:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async createUser (file:///D:/DevOps/acquisitions/src/services/auth.service.js:24:31)\n    at async signup (file:///D:/DevOps/acquisitions/src/controllers/auth.controller.js:21:18)"}
+{"level":"info","message":"::1 - - [04/Oct/2025:17:43:56 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 500 563 \"-\" \"HTTPie\"","service":"acquisitions"}
+{"level":"info","message":"User admin@email.com created successfully","service":"acquisitions"}
+{"level":"info","message":"User registered successfully: admin@email.com","service":"acquisitions"}
+{"level":"info","message":"::1 - - [04/Oct/2025:17:46:34 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 201 101 \"-\" \"HTTPie\"","service":"acquisitions"}
+{"level":"info","message":"User user@email.com created successfully","service":"acquisitions"}
+{"level":"info","message":"User registered successfully: user@email.com","service":"acquisitions"}
+{"level":"info","message":"::1 - - [04/Oct/2025:17:50:56 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 201 98 \"-\" \"HTTPie\"","service":"acquisitions"}
