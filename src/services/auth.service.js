@@ -4,7 +4,7 @@ import { eq } from 'drizzle-orm';
 import { db } from '#config/database.js';
 import { users } from '#models/user.model.js';
 
-export const hashPassword = async (password) => {
+export const hashPassword = async password => {
   try {
     return await bcrypt.hash(password, 10);
   } catch (error) {
@@ -24,7 +24,11 @@ export const comparePassword = async (password, hashedPassword) => {
 
 export const authenticateUser = async ({ email, password }) => {
   try {
-    const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1);
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
 
     if (!user) {
       throw new Error('User not found');
@@ -42,7 +46,7 @@ export const authenticateUser = async ({ email, password }) => {
       name: user.name,
       email: user.email,
       role: user.role,
-      created_at: user.created_at
+      created_at: user.created_at,
     };
   } catch (error) {
     logger.error('Error authenticating user: ', error);
@@ -52,15 +56,28 @@ export const authenticateUser = async ({ email, password }) => {
 
 export const createUser = async ({ name, email, password, role = 'user' }) => {
   try {
-    const existingUser = await db.select().from(users).where(eq(users.email, email)).limit(1);
+    const existingUser = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
 
-    if(existingUser.length > 0) {
+    if (existingUser.length > 0) {
       throw new Error('User already exists with this email');
     }
 
     const password_hash = await hashPassword(password);
 
-    const [newUser] = await db.insert(users).values({ name, email, password: password_hash, role }).returning({ id: users.id, name: users.name, email: users.email, role: users.role, created_at: users.created_at});
+    const [newUser] = await db
+      .insert(users)
+      .values({ name, email, password: password_hash, role })
+      .returning({
+        id: users.id,
+        name: users.name,
+        email: users.email,
+        role: users.role,
+        created_at: users.created_at,
+      });
 
     logger.info(`User ${newUser.email} created successfully`);
     return newUser;

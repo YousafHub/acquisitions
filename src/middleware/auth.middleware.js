@@ -14,7 +14,12 @@ export const ensureAuth = (req, res, next) => {
     req.user = { id: payload.id, email: payload.email, role: payload.role };
     next();
   } catch (error) {
-    logger.warn('Invalid or missing auth token', { path: req.path, method: req.method });
-    return res.status(401).json({ error: 'Unauthorized' });
+    logger.warn('Invalid or missing auth token', {
+      path: req.path,
+      method: req.method,
+    });
+    return res
+      .status(401)
+      .json({ error: 'Unauthorized', error_message: error.message });
   }
 };

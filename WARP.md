@@ -7,11 +7,12 @@ Project overview
 - Stack: Node.js (ESM) + Express + Drizzle ORM (PostgreSQL via Neon) + Winston + Zod + Arcjet security middleware
 - Entrypoint: src/index.js loads src/server.js which starts the HTTP server using src/app.js
 - HTTP: listens on PORT (default 3000); /health returns 200 OK
-- Module aliases (Node “imports” map): #config/*, #controllers/*, #middleware/*, #models/*, #routes/*, #services/*, #utils/*, #validations/*
+- Module aliases (Node “imports” map): #config/_, #controllers/_, #middleware/_, #models/_, #routes/_, #services/_, #utils/_, #validations/_
 
 Common commands
 
 Use npm ci for reproducible installs when package-lock.json is present.
+
 - Install dependencies
   - npm ci
 - Run locally (watch)
@@ -32,6 +33,7 @@ Use npm ci for reproducible installs when package-lock.json is present.
 Docker workflows
 
 These compose files rely on environment files for configuration.
+
 - Development (Node watch, Neon local proxy)
   - docker compose -f docker-compose.dev.yml up --build
   - Environment file: .env.development
@@ -70,7 +72,7 @@ High-level architecture
 - Data layer (Drizzle + Neon)
   - src/config/database.js initializes Neon HTTP client and Drizzle ORM; in development, switches Neon to local proxy settings
   - Schema: src/models/user.model.js defines users table (id, name, email unique, password, role, created_at, updated_at)
-  - Drizzle config: drizzle.config.js points schema to ./src/models/*.js and outputs migrations to ./drizzle
+  - Drizzle config: drizzle.config.js points schema to ./src/models/\*.js and outputs migrations to ./drizzle
   - Services use Drizzle’s query builder (e.g., eq) for selects/inserts and encapsulate bcrypt hashing/comparison
 
 - Logging

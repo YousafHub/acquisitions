@@ -5,11 +5,13 @@ This document provides comprehensive instructions for running the Acquisitions A
 ## 🏗️ Architecture Overview
 
 ### Development Environment
+
 - **Database**: Neon Local (ephemeral branches via Docker)
 - **Proxy**: Neon Local container acts as a proxy to your Neon Cloud project
 - **Benefits**: Fresh database branches for each development session, no manual cleanup required
 
-### Production Environment  
+### Production Environment
+
 - **Database**: Neon Cloud (serverless PostgreSQL)
 - **Configuration**: Direct connection to production Neon database
 - **Benefits**: Production-ready scaling, backups, and reliability
@@ -17,12 +19,15 @@ This document provides comprehensive instructions for running the Acquisitions A
 ## 📋 Prerequisites
 
 ### Required Tools
+
 - [Docker](https://docs.docker.com/get-docker/) (v20.0+)
 - [Docker Compose](https://docs.docker.com/compose/install/) (v2.0+)
 - [Neon Account](https://console.neon.tech) with API access
 
 ### Required Neon Information
+
 Before starting, gather the following from your [Neon Console](https://console.neon.tech):
+
 1. **NEON_API_KEY**: Generate from Account Settings → API Keys
 2. **NEON_PROJECT_ID**: Found in Project Settings → General
 3. **PARENT_BRANCH_ID**: Usually your main/production branch ID
@@ -49,7 +54,7 @@ Edit `.env.development` with your Neon credentials:
 ```bash
 # Required: Get from https://console.neon.tech
 NEON_API_KEY=your_neon_api_key_here
-NEON_PROJECT_ID=your_neon_project_id_here  
+NEON_PROJECT_ID=your_neon_project_id_here
 PARENT_BRANCH_ID=your_parent_branch_id_here
 
 # Database URL (automatically configured for Neon Local)
@@ -85,6 +90,7 @@ export LOG_LEVEL="info"
 ### Development Environment (with Neon Local)
 
 #### Quick Start
+
 ```bash
 # Start development environment with Neon Local
 npm run docker:dev
@@ -94,12 +100,14 @@ docker-compose -f docker-compose.dev.yml --env-file .env.development up --build
 ```
 
 #### What This Does:
+
 1. **Starts Neon Local container**: Creates ephemeral database branch from your parent branch
 2. **Builds and starts your app**: Connects to the ephemeral database
 3. **Runs database migrations**: Applies schema changes to fresh database
 4. **Exposes services**: App on `localhost:3000`, Database on `localhost:5432`
 
 #### Development Commands
+
 ```bash
 # Start development environment
 npm run docker:dev
@@ -118,6 +126,7 @@ curl http://localhost:3000/health
 ```
 
 #### Development Workflow
+
 ```bash
 # 1. Start development environment
 npm run docker:dev
@@ -131,6 +140,7 @@ npm run docker:dev:down
 ### Production Environment (with Neon Cloud)
 
 #### Production Deployment
+
 ```bash
 # Set environment variables (replace with your values)
 export DATABASE_URL="postgres://username:password@ep-xxx-xxx.region.aws.neon.tech/dbname?sslmode=require"
@@ -144,6 +154,7 @@ docker-compose -f docker-compose.prod.yml up --build -d
 ```
 
 #### Production Commands
+
 ```bash
 # Start production environment (detached)
 npm run docker:prod
@@ -164,7 +175,9 @@ curl http://localhost:3000/health
 ## 🔍 Monitoring and Debugging
 
 ### Health Checks
+
 Both environments include built-in health checks:
+
 ```bash
 # Application health
 curl http://localhost:3000/health
@@ -174,11 +187,12 @@ docker ps  # Shows health status in STATUS column
 ```
 
 ### View Logs
+
 ```bash
 # Development logs
 npm run docker:dev:logs
 
-# Production logs  
+# Production logs
 npm run docker:prod:logs
 
 # Specific service logs
@@ -189,6 +203,7 @@ docker-compose -f docker-compose.dev.yml logs app
 ### Database Access
 
 #### Development (Neon Local)
+
 ```bash
 # Connect to ephemeral database
 docker exec -it acquisitions-neon-local psql postgres://neon:npg@localhost:5432/neondb
@@ -198,6 +213,7 @@ psql postgres://neon:npg@localhost:5432/neondb?sslmode=require
 ```
 
 #### Production (Neon Cloud)
+
 ```bash
 # Use your production connection string
 psql "$DATABASE_URL"
@@ -209,11 +225,12 @@ psql "$DATABASE_URL"
 ## 🛠️ Database Management
 
 ### Migrations
+
 ```bash
 # Development migrations
 npm run docker:migrate:dev
 
-# Production migrations  
+# Production migrations
 npm run docker:migrate:prod
 
 # Generate new migration
@@ -224,6 +241,7 @@ npm run db:studio  # Opens Drizzle Studio
 ```
 
 ### Schema Changes
+
 1. Modify your models in `src/models/`
 2. Generate migration: `npm run db:generate`
 3. Apply to development: `npm run docker:migrate:dev`
@@ -233,11 +251,13 @@ npm run db:studio  # Opens Drizzle Studio
 ## 🔐 Security Considerations
 
 ### Development Security
+
 - Ephemeral databases are automatically cleaned up
 - Use development-only JWT secrets
 - Neon Local uses self-signed certificates
 
 ### Production Security
+
 - Use strong, randomly generated JWT secrets
 - Store secrets in environment variables (never in code)
 - Enable HTTPS in production (consider adding nginx reverse proxy)
@@ -248,6 +268,7 @@ npm run db:studio  # Opens Drizzle Studio
 ### Common Issues
 
 #### Neon Local Won't Start
+
 ```bash
 # Check your credentials
 echo $NEON_API_KEY
@@ -263,6 +284,7 @@ npm run docker:dev
 ```
 
 #### App Can't Connect to Database
+
 ```bash
 # Check if Neon Local is healthy
 docker ps  # Look for healthy status
@@ -275,6 +297,7 @@ docker-compose -f docker-compose.dev.yml exec app env | grep DATABASE_URL
 ```
 
 #### Production Database Issues
+
 ```bash
 # Test connection directly
 psql "$DATABASE_URL" -c "SELECT version();"
@@ -287,6 +310,7 @@ openssl s_client -connect your-neon-host:5432 -starttls postgres
 ```
 
 #### Port Conflicts
+
 ```bash
 # If port 5432 is in use (development)
 # Option 1: Stop local PostgreSQL
@@ -301,6 +325,7 @@ sudo service postgresql stop
 ```
 
 ### Clean Up Commands
+
 ```bash
 # Remove all containers and volumes
 npm run docker:clean
@@ -317,16 +342,19 @@ docker-compose -f docker-compose.prod.yml down -v --rmi all
 ## 📚 Additional Resources
 
 ### Neon Documentation
+
 - [Neon Local Documentation](https://neon.com/docs/local/neon-local)
 - [Neon Console](https://console.neon.tech)
 - [Neon API Reference](https://api-docs.neon.tech/reference/getting-started-with-neon-api)
 
 ### Docker Documentation
+
 - [Docker Compose Documentation](https://docs.docker.com/compose/)
 - [Docker Best Practices](https://docs.docker.com/develop/dev-best-practices/)
 - [Multi-stage Builds](https://docs.docker.com/build/building/multi-stage/)
 
 ### Application Stack
+
 - [Drizzle ORM Documentation](https://orm.drizzle.team/)
 - [Express.js Documentation](https://expressjs.com/)
 - [Node.js Docker Best Practices](https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md)
@@ -334,6 +362,7 @@ docker-compose -f docker-compose.prod.yml down -v --rmi all
 ## 🤝 Support
 
 For issues related to:
+
 - **Neon Database**: [Neon Support](https://neon.tech/docs/introduction/support)
 - **Application Code**: Create an issue in this repository
 - **Docker Setup**: Check the troubleshooting section above
@@ -343,13 +372,14 @@ For issues related to:
 ## 🎯 Quick Reference
 
 ### Essential Commands
+
 ```bash
 # Development
 npm run docker:dev          # Start development environment
 npm run docker:dev:down     # Stop and cleanup
 npm run docker:dev:logs     # View logs
 
-# Production  
+# Production
 npm run docker:prod         # Start production environment
 npm run docker:prod:down    # Stop production
 npm run docker:prod:logs    # View logs
@@ -364,6 +394,7 @@ npm run docker:clean        # Clean up Docker resources
 ```
 
 ### Environment Variables Quick Setup
+
 ```bash
 # Development (.env.development)
 NEON_API_KEY=your_api_key
