@@ -1,0 +1,58 @@
+name: Lint and Format
+
+on:
+  push:
+    branches: [main, staging]
+  pull_request:
+    branches: [main, staging]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  lint-and-format:
+    name: Lint and Format
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        id: eslint
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Run Prettier check
+        id: prettier
+        run: npm run format:check
+        continue-on-error: true
+
+      - name: Annotate and summarize issues (if any)
+        if: steps.eslint.outcome == 'failure' || steps.prettier.outcome == 'failure'
+        run: |
+          echo "::error title=Lint/Format issues detected::Run 'npm run lint:fix' and 'npm run format' locally, commit fixes, and push."
+          {
+            echo "### Lint/Format issues detected";
+            echo "";
+            if [ "${{ steps.eslint.outcome }}" = "failure" ]; then
+              echo "- ESLint reported problems. Suggested fix: `npm run lint:fix`";
+            fi
+            if [ "${{ steps.prettier.outcome }}" = "failure" ]; then
+              echo "- Prettier formatting check failed. Suggested fix: `npm run format`";
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail if any issues found
+        if: steps.eslint.outcome == 'failure' || steps.prettier.outcome == 'failure'
+        run: exit 1
